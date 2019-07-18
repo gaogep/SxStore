@@ -21,6 +21,7 @@ django-filter = "*"
 pillow = "*"
 django-guardian = "*"
 coreapi = "*"
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.7"

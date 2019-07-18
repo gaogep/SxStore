@@ -21,11 +21,12 @@ from rest_framework.routers import DefaultRouter
 
 from .settings import MEDIA_ROOT
 from goods.views_base import GoodsListView
-from goods.views import GoodsListViewSet
+from goods.views import GoodsListViewSet, CategoryViewSet
 
 
 router = DefaultRouter()
-router.register(r'goods', GoodsListViewSet)
+router.register('goods', GoodsListViewSet, base_name='goods')
+router.register('categorys', CategoryViewSet, base_name='categorys')
 
 # goods_list = GoodsListViewSet.as_view({
 #     'get': 'list'
