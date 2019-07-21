@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -5,8 +6,8 @@ from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+# from rest_framework.authentication import TokenAuthentication
 
 from .models import Goods, GoodsCategory
 from .serializer import GoodsSerializer, CategorySerializer
@@ -52,6 +53,7 @@ class GoodsListViewDrfVersion3(generics.ListAPIView):
 
 
 class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    # authentication_classes = (TokenAuthentication,)
     pagination_class = GoodsPagination
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer

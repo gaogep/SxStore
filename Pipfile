@@ -22,6 +22,7 @@ pillow = "*"
 django-guardian = "*"
 coreapi = "*"
 django-cors-headers = "*"
+djangorestframework-simplejwt = "*"
 
 [requires]
 python_version = "3.7"

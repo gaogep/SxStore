@@ -16,17 +16,23 @@ Including another URLconf
 import xadmin
 from django.views.static import serve
 from django.conf.urls import url, include
+
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
+# from rest_framework.authtoken import views
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .settings import MEDIA_ROOT
-from goods.views_base import GoodsListView
 from goods.views import GoodsListViewSet, CategoryViewSet
+from users.views import UserViewSet
+# from users.views import SendmsgViewSet
 
 
 router = DefaultRouter()
 router.register('goods', GoodsListViewSet, base_name='goods')
 router.register('categorys', CategoryViewSet, base_name='categorys')
+router.register('users', UserViewSet, base_name='users')
+# router.register('code', SendmsgViewSet, base_name='code')
 
 # goods_list = GoodsListViewSet.as_view({
 #     'get': 'list'
@@ -47,5 +53,12 @@ urlpatterns = [
     url('^api-auth/', include('rest_framework.urls')),
 
     # router
-    url('^', include(router.urls))
+    url('^', include(router.urls)),
+
+    # drf自带的to
+    # url(r'^api-token-auth/', views.obtain_auth_token)
+
+    url(r'^login/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+
+    url(r'^api/token/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
 ]
