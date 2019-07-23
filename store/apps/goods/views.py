@@ -52,7 +52,7 @@ class GoodsListViewDrfVersion3(generics.ListAPIView):
     pagination_class = GoodsPagination
 
 
-class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     # authentication_classes = (TokenAuthentication,)
     pagination_class = GoodsPagination
     queryset = Goods.objects.all()

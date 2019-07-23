@@ -14,7 +14,7 @@ class GoodsFilter(filters.FilterSet):
 
     class Meta:
         model = Goods
-        fields = ['pricemin', 'pricemax', 'goods_name']
+        fields = ['pricemin', 'pricemax', 'goods_name', 'is_hot']
 
     # 根据商品1级类目id找出下面的所有商品
     def top_category_filter(self, queryset, name, value):

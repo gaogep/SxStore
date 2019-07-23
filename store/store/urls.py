@@ -25,6 +25,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .settings import MEDIA_ROOT
 from goods.views import GoodsListViewSet, CategoryViewSet
 from users.views import UserViewSet
+from user_opt.views import UserFavViewSet
 # from users.views import SendmsgViewSet
 
 
@@ -32,6 +33,7 @@ router = DefaultRouter()
 router.register('goods', GoodsListViewSet, base_name='goods')
 router.register('categorys', CategoryViewSet, base_name='categorys')
 router.register('users', UserViewSet, base_name='users')
+router.register('userfavs', UserFavViewSet, base_name='userfavs')
 # router.register('code', SendmsgViewSet, base_name='code')
 
 # goods_list = GoodsListViewSet.as_view({
@@ -55,7 +57,7 @@ urlpatterns = [
     # router
     url('^', include(router.urls)),
 
-    # drf自带的to
+    # drf自带的token验证
     # url(r'^api-token-auth/', views.obtain_auth_token)
 
     url(r'^login/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),

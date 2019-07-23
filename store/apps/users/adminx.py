@@ -11,9 +11,9 @@ class GlobalSetting:
 
 
 class UserProfileAdmin:
-    list_display = ['name', 'birthday', 'gender', 'mobile', 'email']
-    list_filter = ['name', 'birthday', 'gender', 'email']
-    search_fields = ['name', 'mobile', 'email']
+    list_display = ['username', 'name', 'birthday', 'gender', 'mobile', 'email']
+    list_filter = ['username', 'name', 'birthday', 'gender', 'email']
+    search_fields = ['username', 'name', 'mobile', 'email']
 
 
 class VerifyCodeAdmin:

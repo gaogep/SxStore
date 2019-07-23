@@ -73,12 +73,15 @@ class Goods(models.Model):
         verbose_name = "商品"
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return self.name
+
 
 class GoodsDetailBanner(models.Model):
     """
     商品详情内部的轮播图
     """
-    goods = models.ForeignKey(Goods, verbose_name="商品名", on_delete=models.CASCADE)
+    goods = models.ForeignKey(Goods, verbose_name="商品名", on_delete=models.CASCADE, related_name="image")
     image = models.ImageField(max_length=200, upload_to='goods_detail_banner', verbose_name="商品轮播图")
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
 

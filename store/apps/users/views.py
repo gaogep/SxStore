@@ -11,7 +11,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 # from rest_framework.response import Response
 # from rest_framework import status
 
-from .serializers import RegisterSerializer
+from .serializer import RegisterSerializer
 # from .serializers import MsgSerializer
 # from .models import VerifyCode
 

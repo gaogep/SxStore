@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-from .models import Goods, GoodsCategory
+from .models import Goods, GoodsCategory, GoodsDetailBanner
 
 User = get_user_model()
 
@@ -28,8 +28,15 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class GoodsImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GoodsDetailBanner
+        fields = ("image", )
+
+
 class GoodsSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
+    image = GoodsImageSerializer(many=True)
 
     class Meta:
         model = Goods
