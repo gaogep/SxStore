@@ -3,15 +3,17 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 
 from rest_framework import viewsets
-from rest_framework.mixins import CreateModelMixin
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework import permissions
+from rest_framework_simplejwt.authentication import JWTAuthentication
 # from rest_framework.response import Response
 # from rest_framework import status
 
-from .serializer import RegisterSerializer
+from .serializer import UserRegisterSerializer, UserDetailSerializer
 # from .serializers import MsgSerializer
 # from .models import VerifyCode
 
@@ -63,10 +65,24 @@ class CustomBackend(ModelBackend):
 #             }, status=status.HTTP_201_CREATED)
 
 
-class UserViewSet(CreateModelMixin, viewsets.GenericViewSet):
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    serializer_class = RegisterSerializer
+class UserViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, viewsets.GenericViewSet):
+    # serializer_class = UserRegisterSerializer
     queryset = User.objects.all()
+    authentication_classes = (SessionAuthentication, JWTAuthentication)
+
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return UserDetailSerializer
+        elif self.action == "create":
+            return UserRegisterSerializer
+        return UserDetailSerializer
+
+    def get_permissions(self):
+        if self.action == "retrieve":
+            return [permissions.IsAuthenticated()]
+        elif self.action == "create":
+            return []
+        return []
 
     # 重载create和perform_create方法,实现注册后自动登录
     def create(self, request, *args, **kwargs):
@@ -88,3 +104,6 @@ class UserViewSet(CreateModelMixin, viewsets.GenericViewSet):
     # serializer是RegisterSerializer中Meta里的Model对象
     def perform_create(self, serializer):
         return serializer.save()
+
+    def get_object(self):
+        return self.request.user

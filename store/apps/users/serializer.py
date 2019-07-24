@@ -37,7 +37,7 @@ class MsgSerializer(serializers.Serializer):
         return mobile
 
 
-class RegisterSerializer(serializers.ModelSerializer):
+class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("username", "mobile", "code", "password")
@@ -79,3 +79,10 @@ class RegisterSerializer(serializers.ModelSerializer):
     #     user.set_password(validated_data["password"])
     #     user.save()
     #     return user
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    """用户详情序列化类"""
+    class Meta:
+        model = User
+        fields = ("name", "gender", "birthday", "email", "mobile")

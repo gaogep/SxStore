@@ -16,7 +16,9 @@ Including another URLconf
 import xadmin
 from django.views.static import serve
 from django.conf.urls import url, include
+# from django.urls import path
 
+# from rest_framework.schemas import get_schema_view
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 # from rest_framework.authtoken import views
@@ -25,7 +27,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .settings import MEDIA_ROOT
 from goods.views import GoodsListViewSet, CategoryViewSet
 from users.views import UserViewSet
-from user_opt.views import UserFavViewSet
+from user_opt.views import UserFavViewSet, LeaveMessageViewSet, AddressViewSet
 # from users.views import SendmsgViewSet
 
 
@@ -34,6 +36,9 @@ router.register('goods', GoodsListViewSet, base_name='goods')
 router.register('categorys', CategoryViewSet, base_name='categorys')
 router.register('users', UserViewSet, base_name='users')
 router.register('userfavs', UserFavViewSet, base_name='userfavs')
+router.register('messages', LeaveMessageViewSet, base_name='messages')
+router.register('address', AddressViewSet, base_name='address')
+
 # router.register('code', SendmsgViewSet, base_name='code')
 
 # goods_list = GoodsListViewSet.as_view({
@@ -63,4 +68,9 @@ urlpatterns = [
     url(r'^login/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
 
     url(r'^api/token/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
+
+    # path('openapi', get_schema_view(
+    #     title="SxStore",
+    #     description="API for all things …"
+    # ), name='openapi-schema'),
 ]
