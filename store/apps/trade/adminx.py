@@ -4,7 +4,7 @@ from .models import *
 
 
 class ShoppingCartAdmin:
-    list_display = ['user', 'goods', 'goods_num', 'add_time']
+    list_display = ['user', 'goods', 'nums', 'add_time']
     list_filter = ['user__name']
     search_fields = ['user']
 

@@ -14,10 +14,12 @@ class GoodsFilter(filters.FilterSet):
 
     class Meta:
         model = Goods
-        fields = ['pricemin', 'pricemax', 'goods_name', 'is_hot']
+        fields = ['pricemin', 'pricemax', 'goods_name', 'is_hot', 'is_new']
 
     # 根据商品1级类目id找出下面的所有商品
     def top_category_filter(self, queryset, name, value):
-        return queryset.filter(Q(category_id=value) |
-                               Q(category__parent_category_id=value) |
-                               Q(category__parent_category__parent_category_id=value))
+        return queryset.filter(
+            Q(category_id=value) |
+            Q(category__parent_category_id=value) |
+            Q(category__parent_category__parent_category_id=value)
+        )

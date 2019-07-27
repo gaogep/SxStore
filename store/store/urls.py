@@ -25,9 +25,10 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .settings import MEDIA_ROOT
-from goods.views import GoodsListViewSet, CategoryViewSet
+from goods.views import GoodsListViewSet, CategoryViewSet, BannerViewSet, IndexCategoryViewSet
 from users.views import UserViewSet
 from user_opt.views import UserFavViewSet, LeaveMessageViewSet, AddressViewSet
+from trade.views import ShoppingCartViewSet, OrderViewSet
 # from users.views import SendmsgViewSet
 
 
@@ -38,6 +39,10 @@ router.register('users', UserViewSet, base_name='users')
 router.register('userfavs', UserFavViewSet, base_name='userfavs')
 router.register('messages', LeaveMessageViewSet, base_name='messages')
 router.register('address', AddressViewSet, base_name='address')
+router.register('shopcarts', ShoppingCartViewSet, base_name='shopcarts')
+router.register('orders', OrderViewSet, base_name='orders')
+router.register('banners', BannerViewSet, base_name='banners')
+router.register('indexGoods', IndexCategoryViewSet, base_name='indexGoods')
 
 # router.register('code', SendmsgViewSet, base_name='code')
 

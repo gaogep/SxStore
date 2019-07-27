@@ -9,8 +9,8 @@ from rest_framework import viewsets
 from rest_framework import filters
 # from rest_framework.authentication import TokenAuthentication
 
-from .models import Goods, GoodsCategory
-from .serializer import GoodsSerializer, CategorySerializer
+from .models import Goods, GoodsCategory, IndexBanner
+from .serializer import GoodsSerializer, CategorySerializer, BannerSerializer, IndexGoodsSerializer
 from .filters import GoodsFilter
 
 
@@ -70,3 +70,15 @@ class CategoryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets
     """
     queryset = GoodsCategory.objects.filter(category_type=1)
     serializer_class = CategorySerializer
+
+
+class BannerViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """首页轮播图"""
+    queryset = IndexBanner.objects.all().order_by("index")
+    serializer_class = BannerSerializer
+
+
+class IndexCategoryViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """首页商品数据"""
+    queryset = GoodsCategory.objects.filter(is_tab=True)
+    serializer_class = IndexGoodsSerializer
