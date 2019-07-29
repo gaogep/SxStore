@@ -28,6 +28,13 @@ class UserFavViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.Retr
             return UserFavSerializer
         return UserFavSerializer
 
+    # 重载perform_create方法，自增收藏数
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        goods = instance.goods
+        goods.fav_nums += 1
+        goods.save()
+
 
 class LeaveMessageViewSet(mixins.ListModelMixin, mixins.DestroyModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet):
     """用户留言功能"""

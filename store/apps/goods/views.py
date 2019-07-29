@@ -7,7 +7,7 @@ from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets
 from rest_framework import filters
-# from rest_framework.authentication import TokenAuthentication
+# from rest_framework_extensions.cache.mixins import CacheResponseMixin
 
 from .models import Goods, GoodsCategory, IndexBanner
 from .serializer import GoodsSerializer, CategorySerializer, BannerSerializer, IndexGoodsSerializer
@@ -53,7 +53,6 @@ class GoodsListViewDrfVersion3(generics.ListAPIView):
 
 
 class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-    # authentication_classes = (TokenAuthentication,)
     pagination_class = GoodsPagination
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
@@ -61,6 +60,14 @@ class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewset
     filter_class = GoodsFilter
     search_fields = ('name', 'category__name')
     ordering_fields = ('sold_nums', 'sale_price')
+
+    # 重载此方法，自增商品点击量
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.click_nums += 1
+        instance.save()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 
 class CategoryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -80,5 +87,5 @@ class BannerViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 
 class IndexCategoryViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """首页商品数据"""
-    queryset = GoodsCategory.objects.filter(is_tab=True)
+    queryset = GoodsCategory.objects.filter(is_tab=True, name__in=["生鲜食品", "酒水饮料"])
     serializer_class = IndexGoodsSerializer

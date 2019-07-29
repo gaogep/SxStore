@@ -32,6 +32,11 @@ class IndexBannerAdmin:
     list_display = ["goods", "image", "index", "add_time"]
 
 
+class IndexAdAdmin:
+    list_display = ["category", "goods"]
+
+
+xadmin.site.register(IndexAd, IndexAdAdmin)
 xadmin.site.register(Goods, GoodsAdmin)
 xadmin.site.register(GoodsCategory, GoodsCategoryAdmin)
 xadmin.site.register(GoodsCategoryBrand, GoodsCategoryBrandAdmin)

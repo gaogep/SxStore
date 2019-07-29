@@ -24,6 +24,8 @@ coreapi = "*"
 django-cors-headers = "*"
 djangorestframework-simplejwt = "*"
 pycryptodome = "*"
+drf-extensions = "*"
+django-redis = "*"
 
 [requires]
 python_version = "3.7"

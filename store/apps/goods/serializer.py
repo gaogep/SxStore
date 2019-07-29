@@ -2,7 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 
-from .models import Goods, GoodsCategory, GoodsDetailBanner, IndexBanner, GoodsCategoryBrand
+from .models import Goods, GoodsCategory, GoodsDetailBanner, \
+    IndexBanner, GoodsCategoryBrand, IndexAd
 
 User = get_user_model()
 
@@ -64,8 +65,9 @@ class BrandSerialzier(serializers.ModelSerializer):
 
 class IndexGoodsSerializer(serializers.ModelSerializer):
     brands = BrandSerialzier(many=True)
-    goods = serializers.SerializerMethodField()
     sub_cat = CategorySerializer2(many=True)
+    goods = serializers.SerializerMethodField()
+    ad_goods = serializers.SerializerMethodField()
 
     class Meta:
         model = GoodsCategory
@@ -77,4 +79,12 @@ class IndexGoodsSerializer(serializers.ModelSerializer):
             Q(category__parent_category_id=obj.id) |
             Q(category__parent_category__parent_category_id=obj.id)
         )
-        return GoodsSerializer(all_goods, many=True).data
+        return GoodsSerializer(all_goods, many=True, context={'request': self.context['request']}).data
+
+    def get_ad_goods(self, obj):
+        goods_json = None
+        ad_goods = IndexAd.objects.filter(category_id=obj.id)
+        if ad_goods:                                            # 在序列化器中嵌套序列化器的时候要注意了
+            goods_ins = ad_goods[0].goods                       # 要手动添加上下文，否则图片地址中不会自动加上域名
+            goods_json = GoodsSerializer(goods_ins, many=False, context={'request': self.context['request']}).data
+        return goods_json
