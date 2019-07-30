@@ -78,4 +78,7 @@ urlpatterns = [
     #     title="SxStore",
     #     description="API for all things …"
     # ), name='openapi-schema'),
+
+    # 第三方登录
+    url('', include('social_django.urls', namespace='social'))
 ]

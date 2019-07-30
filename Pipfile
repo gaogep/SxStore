@@ -26,6 +26,7 @@ djangorestframework-simplejwt = "*"
 pycryptodome = "*"
 drf-extensions = "*"
 django-redis = "*"
+social-auth-app-django = "*"
 
 [requires]
 python_version = "3.7"

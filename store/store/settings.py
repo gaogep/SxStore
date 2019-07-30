@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'social_django'
 ]
 
 MIDDLEWARE = [
@@ -85,6 +86,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect'
             ],
         },
     },
@@ -139,8 +142,10 @@ USE_L10N = True
 
 USE_TZ = False
 
-AUTHENTICATION_BACKENDS = (
+AUTHENTICATION_BACKENDS = (  # 集成第三方登录
     'users.views.CustomBackend',
+    'social_core.backends.weibo.WeiboOAuth2',
+    'django.contrib.auth.backends.ModelBackend'
 )
 
 
@@ -199,3 +204,8 @@ CACHES = {
         }
     }
 }
+
+
+SOCIAL_AUTH_WEIBO_KEY = ''
+SOCIAL_AUTH_WEIBO_SECRET = ''
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = ''  # 用户登录成功以后的跳转url 重定向 浏览器执行
